@@ -1,0 +1,15 @@
+# Repositório de Artefatos de Projeto de Software Estratégico
+
+## Visão Geral
+Este repositório foi criado como parte da disciplina de 
+**Projeto de Software Avançado** 
+(U4_A4_PARADIGMAS EM PROJETO DE SOFTWARE ESTRATÉGICO) [1] do curso de Análise e Desenvolvimento de Software.
+
+**Se você está lendo este material, significa que a criação do repositório em
+ uma ferramenta de Gestão de Configuração, conforme proposto na 
+ aula prática [2-4], foi realizada com sucesso!**
+
+O principal objetivo deste repositório é servir como um 
+**ponto de referência centralizado e controlado para a guarda de artefatos de 
+projetos de software e demais documentos digitais**, com foco na
+ **Gestão de Configuração** visando a **Governança de TI** [1, 5, 6].
