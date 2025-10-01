@@ -1,0 +1,1001 @@
+{% extends "base.html" %}
+
+{% block title %}Busca de Pacientes - CLÍNICA VIDA+ Sistema Ordinix-123{% endblock %}
+
+{% block extra_css %}
+<style>
+    .busca-header {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 2rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .search-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 2rem;
+    }
+    
+    .search-box {
+        position: relative;
+        margin-bottom: 2rem;
+    }
+    
+    .search-input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3rem;
+        border: 2px solid var(--border-color);
+        border-radius: 50px;
+        font-size: 1.1rem;
+        transition: var(--transition-fast);
+        background: white;
+    }
+    
+    .search-input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.2rem rgba(var(--primary-rgb), 0.25);
+        outline: none;
+    }
+    
+    .search-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        font-size: 1.2rem;
+    }
+    
+    .search-filters {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: var(--light);
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+    
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .filter-label {
+        font-weight: 500;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .filter-label i {
+        margin-right: 0.5rem;
+        color: var(--primary);
+    }
+    
+    .filter-control {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+        transition: var(--transition-fast);
+    }
+    
+    .filter-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.1rem rgba(var(--primary-rgb), 0.25);
+        outline: none;
+    }
+    
+    .ordinix-filter {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .ordinix-badge {
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: var(--transition-fast);
+        border: 2px solid transparent;
+        user-select: none;
+    }
+    
+    .ordinix-badge.nivel-1 {
+        background: var(--success);
+        color: white;
+    }
+    
+    .ordinix-badge.nivel-2 {
+        background: var(--warning);
+        color: var(--dark);
+    }
+    
+    .ordinix-badge.nivel-3 {
+        background: var(--danger);
+        color: white;
+    }
+    
+    .ordinix-badge.active {
+        border-color: var(--dark);
+        transform: scale(1.05);
+    }
+    
+    .ordinix-badge:hover {
+        transform: scale(1.05);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .search-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    
+    .btn-search {
+        background: var(--gradient-primary);
+        border: none;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .btn-search:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: white;
+    }
+    
+    .btn-clear {
+        background: var(--muted);
+        border: none;
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 25px;
+        font-weight: 600;
+        transition: var(--transition-normal);
+    }
+    
+    .btn-clear:hover {
+        background: var(--dark);
+        color: white;
+    }
+    
+    .results-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .results-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--border-color);
+    }
+    
+    .results-count {
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+    
+    .results-sort {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .sort-select {
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .patient-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .patient-card {
+        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: var(--transition-normal);
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .patient-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--primary);
+    }
+    
+    .patient-card.nivel-1::before {
+        background: var(--success);
+    }
+    
+    .patient-card.nivel-2::before {
+        background: var(--warning);
+    }
+    
+    .patient-card.nivel-3::before {
+        background: var(--danger);
+    }
+    
+    .patient-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary);
+    }
+    
+    .patient-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 1rem;
+    }
+    
+    .patient-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--dark);
+        margin-bottom: 0.25rem;
+    }
+    
+    .patient-id {
+        color: var(--muted);
+        font-size: 0.8rem;
+    }
+    
+    .patient-ordinix {
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .patient-ordinix.nivel-1 {
+        background: var(--success);
+        color: white;
+    }
+    
+    .patient-ordinix.nivel-2 {
+        background: var(--warning);
+        color: var(--dark);
+    }
+    
+    .patient-ordinix.nivel-3 {
+        background: var(--danger);
+        color: white;
+    }
+    
+    .patient-info {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .patient-info-item {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        color: var(--muted);
+    }
+    
+    .patient-info-item i {
+        margin-right: 0.5rem;
+        color: var(--primary);
+        width: 12px;
+    }
+    
+    .patient-actions {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+    }
+    
+    .btn-action {
+        padding: 0.5rem;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: var(--transition-fast);
+    }
+    
+    .btn-action.edit {
+        background: var(--primary);
+    }
+    
+    .btn-action.view {
+        background: var(--info);
+    }
+    
+    .btn-action.delete {
+        background: var(--danger);
+    }
+    
+    .btn-action:hover {
+        transform: scale(1.1);
+    }
+    
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        color: var(--muted);
+    }
+    
+    .no-results i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--border-color);
+    }
+    
+    .loading-results {
+        text-align: center;
+        padding: 3rem;
+    }
+    
+    .loading-spinner {
+        width: 2rem;
+        height: 2rem;
+        border: 0.2rem solid var(--light);
+        border-top: 0.2rem solid var(--primary);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 2rem;
+    }
+    
+    .pagination-btn {
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border-color);
+        background: white;
+        color: var(--dark);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: var(--transition-fast);
+    }
+    
+    .pagination-btn:hover {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+    
+    .pagination-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+    
+    .pagination-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .search-filters {
+            grid-template-columns: 1fr;
+        }
+        
+        .patient-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .search-actions {
+            flex-direction: column;
+        }
+        
+        .results-header {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="busca-header animate__animated animate__fadeInDown">
+    <h1>
+        <i class="fas fa-search me-3"></i>
+        Busca de Pacientes
+    </h1>
+    <p class="mb-0">Sistema Ordinix-123 - Busca Avançada e Inteligente</p>
+</div>
+
+<div class="search-container animate__animated animate__fadeInUp">
+    <div class="search-box">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" 
+               placeholder="Digite o nome, CPF ou telefone do paciente...">
+    </div>
+    
+    <div class="search-filters" id="searchFilters">
+        <div class="filter-group">
+            <label class="filter-label">
+                <i class="fas fa-calendar"></i>
+                Data de Nascimento
+            </label>
+            <input type="date" class="filter-control" id="filterNascimento">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">
+                <i class="fas fa-phone"></i>
+                Telefone
+            </label>
+            <input type="text" class="filter-control" id="filterTelefone" 
+                   placeholder="(00) 00000-0000">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">
+                <i class="fas fa-city"></i>
+                Cidade
+            </label>
+            <input type="text" class="filter-control" id="filterCidade" 
+                   placeholder="Nome da cidade">
+        </div>
+        
+        <div class="filter-group">
+            <label class="filter-label">
+                <i class="fas fa-robot"></i>
+                Nível Ordinix-123
+            </label>
+            <div class="ordinix-filter">
+                <span class="ordinix-badge nivel-1" data-nivel="1">
+                    Nível 1
+                </span>
+                <span class="ordinix-badge nivel-2" data-nivel="2">
+                    Nível 2
+                </span>
+                <span class="ordinix-badge nivel-3" data-nivel="3">
+                    Nível 3
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="search-actions">
+        <button class="btn-search" onclick="performSearch()">
+            <i class="fas fa-search me-2"></i>
+            Buscar Pacientes
+        </button>
+        <button class="btn-clear" onclick="clearFilters()">
+            <i class="fas fa-eraser me-2"></i>
+            Limpar Filtros
+        </button>
+    </div>
+</div>
+
+<div class="results-container animate__animated animate__fadeInUp">
+    <div class="results-header">
+        <div>
+            <h3>
+                <i class="fas fa-list me-2"></i>
+                Resultados da Busca
+            </h3>
+            <div class="results-count" id="resultsCount">
+                Digite algo para começar a busca
+            </div>
+        </div>
+        
+        <div class="results-sort">
+            <label for="sortBy">Ordenar por:</label>
+            <select class="sort-select" id="sortBy" onchange="sortResults()">
+                <option value="nome">Nome</option>
+                <option value="nascimento">Data de Nascimento</option>
+                <option value="ordinix_nivel">Nível Ordinix</option>
+                <option value="cadastro">Data de Cadastro</option>
+            </select>
+        </div>
+    </div>
+    
+    <div id="resultsContainer">
+        <div class="no-results">
+            <i class="fas fa-search"></i>
+            <h4>Nenhuma busca realizada</h4>
+            <p>Use os filtros acima para encontrar pacientes</p>
+        </div>
+    </div>
+    
+    <div class="pagination" id="pagination" style="display: none;">
+        <!-- Pagination will be generated here -->
+    </div>
+</div>
+
+<!-- Patient Details Modal -->
+<div class="modal fade" id="patientModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user me-2"></i>
+                    Detalhes do Paciente
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="patientDetails">
+                <!-- Patient details will be loaded here -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="editPatient()">
+                    <i class="fas fa-edit me-2"></i>
+                    Editar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let currentResults = [];
+    let currentPage = 1;
+    let resultsPerPage = 12;
+    let selectedOrdinixLevels = [];
+    let searchTimeout;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        initializeSearch();
+        setupEventListeners();
+    });
+    
+    // Initialize search functionality
+    function initializeSearch() {
+        // Auto-search on input
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(performSearch, 500);
+        });
+        
+        // Filter inputs
+        const filterInputs = document.querySelectorAll('.filter-control');
+        filterInputs.forEach(input => {
+            input.addEventListener('change', performSearch);
+        });
+        
+        // Ordinix level filters
+        const ordinixBadges = document.querySelectorAll('.ordinix-badge');
+        ordinixBadges.forEach(badge => {
+            badge.addEventListener('click', function() {
+                toggleOrdinixFilter(this.dataset.nivel);
+            });
+        });
+    }
+    
+    // Setup event listeners
+    function setupEventListeners() {
+        // Enter key on search input
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+        
+        // Phone mask for filter
+        document.getElementById('filterTelefone').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            value = value.replace(/(\d{2})(\d)/, '($1) $2');
+            value = value.replace(/(\d{5})(\d)/, '$1-$2');
+            e.target.value = value;
+        });
+    }
+    
+    // Toggle Ordinix filter
+    function toggleOrdinixFilter(nivel) {
+        const badge = document.querySelector(`[data-nivel="${nivel}"]`);
+        
+        if (selectedOrdinixLevels.includes(nivel)) {
+            selectedOrdinixLevels = selectedOrdinixLevels.filter(n => n !== nivel);
+            badge.classList.remove('active');
+        } else {
+            selectedOrdinixLevels.push(nivel);
+            badge.classList.add('active');
+        }
+        
+        performSearch();
+    }
+    
+    // Perform search
+    async function performSearch() {
+        const searchTerm = document.getElementById('searchInput').value.trim();
+        const filters = {
+            nascimento: document.getElementById('filterNascimento').value,
+            telefone: document.getElementById('filterTelefone').value,
+            cidade: document.getElementById('filterCidade').value,
+            ordinix_niveis: selectedOrdinixLevels
+        };
+        
+        // Show loading
+        showLoading();
+        
+        try {
+            const queryParams = new URLSearchParams();
+            if (searchTerm) queryParams.append('q', searchTerm);
+            
+            Object.entries(filters).forEach(([key, value]) => {
+                if (value && value.length > 0) {
+                    if (Array.isArray(value)) {
+                        value.forEach(v => queryParams.append(key, v));
+                    } else {
+                        queryParams.append(key, value);
+                    }
+                }
+            });
+            
+            const response = await ClinicaVidaPlus.ajax(`/api/pacientes/busca?${queryParams}`);
+            currentResults = response.pacientes || [];
+            currentPage = 1;
+            
+            displayResults();
+            updateResultsCount();
+            
+        } catch (error) {
+            console.error('Erro na busca:', error);
+            ClinicaVidaPlus.showAlert('Erro ao realizar busca', 'danger');
+            showNoResults('Erro ao realizar busca');
+        }
+    }
+    
+    // Show loading state
+    function showLoading() {
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = `
+            <div class="loading-results">
+                <div class="loading-spinner"></div>
+                <h4>Buscando pacientes...</h4>
+                <p class="text-muted">Sistema Ordinix-123 processando</p>
+            </div>
+        `;
+    }
+    
+    // Display search results
+    function displayResults() {
+        const container = document.getElementById('resultsContainer');
+        
+        if (currentResults.length === 0) {
+            showNoResults('Nenhum paciente encontrado');
+            return;
+        }
+        
+        const startIndex = (currentPage - 1) * resultsPerPage;
+        const endIndex = startIndex + resultsPerPage;
+        const pageResults = currentResults.slice(startIndex, endIndex);
+        
+        container.innerHTML = `
+            <div class="patient-grid">
+                ${pageResults.map(patient => createPatientCard(patient)).join('')}
+            </div>
+        `;
+        
+        updatePagination();
+    }
+    
+    // Create patient card HTML
+    function createPatientCard(patient) {
+        const ordinixClass = `nivel-${patient.ordinix_nivel}`;
+        const ordinixText = {
+            '1': 'Baixo',
+            '2': 'Médio',
+            '3': 'Alto'
+        }[patient.ordinix_nivel] || 'N/A';
+        
+        return `
+            <div class="patient-card ${ordinixClass} animate__animated animate__fadeInUp" 
+                 onclick="viewPatient('${patient.id}')">
+                <div class="patient-header">
+                    <div>
+                        <div class="patient-name">${patient.nome}</div>
+                        <div class="patient-id">ID: ${patient.id}</div>
+                    </div>
+                    <span class="patient-ordinix ${ordinixClass}">
+                        Nível ${patient.ordinix_nivel}
+                    </span>
+                </div>
+                
+                <div class="patient-info">
+                    <div class="patient-info-item">
+                        <i class="fas fa-calendar"></i>
+                        ${formatDate(patient.nascimento)}
+                    </div>
+                    <div class="patient-info-item">
+                        <i class="fas fa-phone"></i>
+                        ${patient.telefone || 'N/A'}
+                    </div>
+                    <div class="patient-info-item">
+                        <i class="fas fa-envelope"></i>
+                        ${patient.email || 'N/A'}
+                    </div>
+                    <div class="patient-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        ${patient.cidade || 'N/A'}
+                    </div>
+                </div>
+                
+                <div class="patient-actions" onclick="event.stopPropagation()">
+                    <button class="btn-action view" onclick="viewPatient('${patient.id}')" 
+                            title="Visualizar">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn-action edit" onclick="editPatient('${patient.id}')" 
+                            title="Editar">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn-action delete" onclick="deletePatient('${patient.id}')" 
+                            title="Excluir">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+    
+    // Show no results message
+    function showNoResults(message) {
+        const container = document.getElementById('resultsContainer');
+        container.innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <h4>${message}</h4>
+                <p>Tente ajustar os filtros de busca</p>
+            </div>
+        `;
+        
+        document.getElementById('pagination').style.display = 'none';
+    }
+    
+    // Update results count
+    function updateResultsCount() {
+        const count = currentResults.length;
+        const countElement = document.getElementById('resultsCount');
+        
+        if (count === 0) {
+            countElement.textContent = 'Nenhum resultado encontrado';
+        } else if (count === 1) {
+            countElement.textContent = '1 paciente encontrado';
+        } else {
+            countElement.textContent = `${count} pacientes encontrados`;
+        }
+    }
+    
+    // Update pagination
+    function updatePagination() {
+        const totalPages = Math.ceil(currentResults.length / resultsPerPage);
+        const pagination = document.getElementById('pagination');
+        
+        if (totalPages <= 1) {
+            pagination.style.display = 'none';
+            return;
+        }
+        
+        pagination.style.display = 'flex';
+        
+        let paginationHTML = `
+            <button class="pagination-btn" onclick="changePage(${currentPage - 1})" 
+                    ${currentPage === 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        `;
+        
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 2 && i <= currentPage + 2)) {
+                paginationHTML += `
+                    <button class="pagination-btn ${i === currentPage ? 'active' : ''}" 
+                            onclick="changePage(${i})">
+                        ${i}
+                    </button>
+                `;
+            } else if (i === currentPage - 3 || i === currentPage + 3) {
+                paginationHTML += '<span class="pagination-btn">...</span>';
+            }
+        }
+        
+        paginationHTML += `
+            <button class="pagination-btn" onclick="changePage(${currentPage + 1})" 
+                    ${currentPage === totalPages ? 'disabled' : ''}>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        `;
+        
+        pagination.innerHTML = paginationHTML;
+    }
+    
+    // Change page
+    function changePage(page) {
+        const totalPages = Math.ceil(currentResults.length / resultsPerPage);
+        
+        if (page < 1 || page > totalPages) return;
+        
+        currentPage = page;
+        displayResults();
+    }
+    
+    // Sort results
+    function sortResults() {
+        const sortBy = document.getElementById('sortBy').value;
+        
+        currentResults.sort((a, b) => {
+            switch (sortBy) {
+                case 'nome':
+                    return a.nome.localeCompare(b.nome);
+                case 'nascimento':
+                    return new Date(a.nascimento) - new Date(b.nascimento);
+                case 'ordinix_nivel':
+                    return b.ordinix_nivel - a.ordinix_nivel; // Descending
+                case 'cadastro':
+                    return new Date(b.data_cadastro) - new Date(a.data_cadastro); // Descending
+                default:
+                    return 0;
+            }
+        });
+        
+        currentPage = 1;
+        displayResults();
+    }
+    
+    // Clear all filters
+    function clearFilters() {
+        document.getElementById('searchInput').value = '';
+        document.getElementById('filterNascimento').value = '';
+        document.getElementById('filterTelefone').value = '';
+        document.getElementById('filterCidade').value = '';
+        
+        // Clear Ordinix filters
+        selectedOrdinixLevels = [];
+        document.querySelectorAll('.ordinix-badge').forEach(badge => {
+            badge.classList.remove('active');
+        });
+        
+        // Reset results
+        currentResults = [];
+        document.getElementById('resultsContainer').innerHTML = `
+            <div class="no-results">
+                <i class="fas fa-search"></i>
+                <h4>Nenhuma busca realizada</h4>
+                <p>Use os filtros acima para encontrar pacientes</p>
+            </div>
+        `;
+        
+        document.getElementById('resultsCount').textContent = 'Digite algo para começar a busca';
+        document.getElementById('pagination').style.display = 'none';
+    }
+    
+    // View patient details
+    async function viewPatient(patientId) {
+        try {
+            const response = await ClinicaVidaPlus.ajax(`/api/pacientes/${patientId}`);
+            const patient = response.paciente;
+            
+            const modalBody = document.getElementById('patientDetails');
+            modalBody.innerHTML = createPatientDetailsHTML(patient);
+            
+            const modal = new bootstrap.Modal(document.getElementById('patientModal'));
+            modal.show();
+            
+        } catch (error) {
+            console.error('Erro ao carregar paciente:', error);
+            ClinicaVidaPlus.showAlert('Erro ao carregar dados do paciente', 'danger');
+        }
+    }
+    
+    // Create patient details HTML
+    function createPatientDetailsHTML(patient) {
+        const ordinixClass = `nivel-${patient.ordinix_nivel}`;
+        const ordinixText = {
+            '1': 'Baixo',
+            '2': 'Médio',
+            '3': 'Alto'
+        }[patient.ordinix_nivel] || 'N/A';
+        
+        return `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6><i class="fas fa-user me-2"></i>Dados Pessoais</h6>
+                    <p><strong>Nome:</strong> ${patient.nome}</p>
+                    <p><strong>CPF:</strong> ${patient.cpf || 'N/A'}</p>
+                    <p><strong>Data de Nascimento:</strong> ${formatDate(patient.nascimento)}</p>
+                    <p><strong>Telefone:</strong> ${patient.telefone || 'N/A'}</p>
+                    <p><strong>E-mail:</strong> ${patient.email || 'N/A'}</p>
+                </div>
+                <div class="col-md-6">
+                    <h6><i class="fas fa-map-marker-alt me-2"></i>Endereço</h6>
+                    <p><strong>CEP:</strong> ${patient.cep || 'N/A'}</p>
+                    <p><strong>Endereço:</strong> ${patient.endereco || 'N/A'}</p>
+                    <p><strong>Cidade:</strong> ${patient.cidade || 'N/A'}</p>
+                    <p><strong>UF:</strong> ${patient.uf || 'N/A'}</p>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-12">
+                    <h6><i class="fas fa-robot me-2"></i>Sistema Ordinix-123</h6>
+                    <p>
+                        <span class="ordinix-badge ${ordinixClass}">
+                            Nível ${patient.ordinix_nivel} - ${ordinixText}
+                        </span>
+                    </p>
+                    ${patient.observacoes ? `<p><strong>Observações:</strong> ${patient.observacoes}</p>` : ''}
+                </div>
+            </div>
+        `;
+    }
+    
+    // Edit patient
+    function editPatient(patientId) {
+        window.location.href = `/cadastro?edit=${patientId}`;
+    }
+    
+    // Delete patient
+    async function deletePatient(patientId) {
+        if (!confirm('Tem certeza que deseja excluir este paciente?')) {
+            return;
+        }
+        
+        try {
+            await ClinicaVidaPlus.ajax(`/api/pacientes/${patientId}`, {
+                method: 'DELETE'
+            });
+            
+            ClinicaVidaPlus.showAlert('Paciente excluído com sucesso', 'success');
+            performSearch(); // Refresh results
+            
+        } catch (error) {
+            console.error('Erro ao excluir paciente:', error);
+            ClinicaVidaPlus.showAlert('Erro ao excluir paciente', 'danger');
+        }
+    }
+    
+    // Format date
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        return date.toLocaleDateString('pt-BR');
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,464 @@
+{% extends "base.html" %}
+
+{% block title %}Login - CLÍNICA VIDA+ Sistema Ordinix-123{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .login-container {
+        width: 100%;
+        max-width: 450px;
+        padding: 2rem;
+    }
+    
+    .login-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        padding: 3rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .login-header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+    
+    .login-logo {
+        width: 80px;
+        height: 80px;
+        background: var(--gradient-primary);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .login-logo i {
+        font-size: 2.5rem;
+        color: white;
+    }
+    
+    .login-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 0.5rem;
+    }
+    
+    .login-subtitle {
+        color: var(--muted);
+        font-weight: 500;
+    }
+    
+    .form-floating {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-floating .form-control {
+        border-radius: 16px;
+        border: 2px solid #e9ecef;
+        padding: 1rem 1rem 1rem 3rem;
+        height: auto;
+        background: rgba(255, 255, 255, 0.9);
+    }
+    
+    .form-floating .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+        background: white;
+    }
+    
+    .form-floating label {
+        padding: 1rem 1rem 1rem 3rem;
+        color: var(--muted);
+    }
+    
+    .input-icon {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--muted);
+        z-index: 5;
+    }
+    
+    .password-toggle {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        z-index: 5;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: var(--transition-fast);
+    }
+    
+    .password-toggle:hover {
+        color: var(--primary);
+        background: rgba(0, 102, 204, 0.1);
+    }
+    
+    .remember-me {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2rem;
+    }
+    
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-check-input {
+        margin-right: 0.5rem;
+        border-radius: 6px;
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--primary);
+        border-color: var(--primary);
+    }
+    
+    .forgot-password {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+        transition: var(--transition-fast);
+    }
+    
+    .forgot-password:hover {
+        color: var(--primary);
+        text-decoration: underline;
+    }
+    
+    .login-btn {
+        width: 100%;
+        padding: 1rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 16px;
+        background: var(--gradient-primary);
+        border: none;
+        color: white;
+        transition: var(--transition-normal);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .login-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .login-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .login-btn .spinner-border {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-right: 0.5rem;
+    }
+    
+    .credentials-info {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(0, 102, 204, 0.1);
+        border-radius: 16px;
+        border-left: 4px solid var(--primary);
+    }
+    
+    .credentials-title {
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .credentials-title i {
+        margin-right: 0.5rem;
+    }
+    
+    .credential-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0, 102, 204, 0.1);
+    }
+    
+    .credential-item:last-child {
+        border-bottom: none;
+    }
+    
+    .credential-role {
+        font-weight: 500;
+        color: var(--dark);
+    }
+    
+    .credential-login {
+        font-family: 'Courier New', monospace;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 0.25rem 0.5rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        color: var(--primary);
+    }
+    
+    .footer-info {
+        text-align: center;
+        margin-top: 2rem;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 0.9rem;
+    }
+    
+    .footer-info a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+    }
+    
+    .footer-info a:hover {
+        text-decoration: underline;
+    }
+    
+    /* Animations */
+    .login-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Responsive */
+    @media (max-width: 576px) {
+        .login-container {
+            padding: 1rem;
+        }
+        
+        .login-card {
+            padding: 2rem;
+        }
+        
+        .login-title {
+            font-size: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">
+                <i class="fas fa-hospital-alt"></i>
+            </div>
+            <h1 class="login-title">CLÍNICA VIDA+</h1>
+            <p class="login-subtitle">Sistema Ordinix-123 de Gestão Hospitalar</p>
+        </div>
+        
+        <form id="loginForm">
+            <div class="form-floating position-relative">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Usuário" required>
+                <label for="usuario">Usuário</label>
+            </div>
+            
+            <div class="form-floating position-relative">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+                <label for="senha">Senha</label>
+                <button type="button" class="password-toggle" onclick="togglePassword()">
+                    <i class="fas fa-eye" id="passwordIcon"></i>
+                </button>
+            </div>
+            
+            <div class="remember-me">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="lembrar" name="lembrar">
+                    <label class="form-check-label" for="lembrar">
+                        Lembrar-me
+                    </label>
+                </div>
+                <a href="#" class="forgot-password">Esqueceu a senha?</a>
+            </div>
+            
+            <button type="submit" class="btn login-btn" id="loginBtn">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Entrar no Sistema
+            </button>
+        </form>
+    </div>
+    
+    <div class="footer-info">
+        <p>
+            <i class="fas fa-code me-1"></i>
+            Desenvolvido por <strong>Adevilson de Lima</strong> - Estudante ADS Anhanguera
+        </p>
+        <p>
+            <i class="fas fa-robot me-1"></i>
+            Powered by Sistema Ordinix-123
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Load saved credentials
+    document.addEventListener('DOMContentLoaded', function() {
+        loadSavedCredentials();
+    });
+    
+    // Toggle password visibility
+    function togglePassword() {
+        const senhaInput = document.getElementById('senha');
+        const passwordIcon = document.getElementById('passwordIcon');
+        
+        if (senhaInput.type === 'password') {
+            senhaInput.type = 'text';
+            passwordIcon.className = 'fas fa-eye-slash';
+        } else {
+            senhaInput.type = 'password';
+            passwordIcon.className = 'fas fa-eye';
+        }
+    }
+    
+    // Load saved credentials from localStorage
+    function loadSavedCredentials() {
+        const savedCredentials = localStorage.getItem('clinica_credentials');
+        if (savedCredentials) {
+            const credentials = JSON.parse(savedCredentials);
+            document.getElementById('usuario').value = credentials.usuario || '';
+            document.getElementById('senha').value = credentials.senha || '';
+            document.getElementById('lembrar').checked = credentials.lembrar || false;
+        }
+    }
+    
+    // Save credentials to localStorage
+    function saveCredentials(usuario, senha, lembrar) {
+        if (lembrar) {
+            const credentials = { usuario, senha, lembrar };
+            localStorage.setItem('clinica_credentials', JSON.stringify(credentials));
+        } else {
+            localStorage.removeItem('clinica_credentials');
+        }
+    }
+    
+    // Clear form
+    function clearForm() {
+        document.getElementById('loginForm').reset();
+        localStorage.removeItem('clinica_credentials');
+    }
+    
+    // Login form submission
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const loginBtn = document.getElementById('loginBtn');
+        const usuario = document.getElementById('usuario').value;
+        const senha = document.getElementById('senha').value;
+        const lembrar = document.getElementById('lembrar').checked;
+        
+        // Show loading state
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2"></span>
+            Entrando...
+        `;
+        
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    usuario: usuario,
+                    senha: senha,
+                    lembrar: lembrar
+                })
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Save credentials if remember me is checked
+                saveCredentials(usuario, senha, lembrar);
+                
+                // Show success message
+                ClinicaVidaPlus.showAlert('Login realizado com sucesso!', 'success');
+                
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = data.redirect;
+                }, 1000);
+            } else {
+                throw new Error(data.message || 'Erro no login');
+            }
+        } catch (error) {
+            console.error('Erro no login:', error);
+            ClinicaVidaPlus.showAlert(error.message || 'Erro ao fazer login. Tente novamente.', 'danger');
+            
+            // Reset button
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = `
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Entrar no Sistema
+            `;
+        }
+    });
+    
+    // Quick login buttons for testing
+    document.querySelectorAll('.credential-login').forEach(button => {
+        button.style.cursor = 'pointer';
+        button.addEventListener('click', function() {
+            const text = this.textContent.trim();
+            const [usuario, senha] = text.split(' / ');
+            
+            document.getElementById('usuario').value = usuario;
+            document.getElementById('senha').value = senha;
+            
+            // Add visual feedback
+            this.style.background = 'rgba(0, 102, 204, 0.2)';
+            setTimeout(() => {
+                this.style.background = 'rgba(255, 255, 255, 0.8)';
+            }, 200);
+        });
+    });
+    
+    // Enter key support
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !document.getElementById('loginBtn').disabled) {
+            document.getElementById('loginForm').dispatchEvent(new Event('submit'));
+        }
+    });
+</script>
+{% endblock %}

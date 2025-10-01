@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CLÍNICA VIDA+ - Sistema Ordinix-123</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <!-- Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Tela de Login -->
+    <div id="login-screen" class="login-container">
+        <div class="login-form">
+            <div class="login-header">
+                <h1>🏥 CLÍNICA VIDA+</h1>
+                <h2>Sistema Ordinix-123</h2>
+                <p class="subtitle">Inventor: Adevilson de Lima - Estudante ADS Anhanguera</p>
+            </div>
+            
+            <form id="login-form" class="form-container">
+                <div class="form-group">
+                    <label for="usuario">Usuário:</label>
+                    <input type="text" id="usuario" name="usuario" value="Adevilson de lima" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="senha">Senha:</label>
+                    <div class="password-container">
+                        <input type="password" id="senha" name="senha" value="Anhanguera2025" required>
+                        <button type="button" id="toggle-password" class="password-toggle">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="lembrar" name="lembrar" checked>
+                    <label for="lembrar">Lembrar-me</label>
+                </div>
+                
+                <button type="submit" class="btn-primary">Entrar</button>
+                <button type="button" id="limpar-campos" class="btn-secondary">Limpar</button>
+            </form>
+            
+            <div class="login-footer">
+                <p>Sistema revolucionário de triagem hospitalar com interface moderna</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sistema Principal -->
+    <div id="main-system" class="main-container" style="display: none;">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button id="menu-toggle" class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>🏥 CLÍNICA VIDA+ - Sistema Ordinix-123</h1>
+            </div>
+            <div class="header-right">
+                <span id="user-info" class="user-info"></span>
+                <span id="current-time" class="current-time"></span>
+                <button id="logout-btn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </header>
+
+        <!-- Sidebar Menu -->
+        <nav id="sidebar" class="sidebar">
+            <ul class="menu-list">
+                <li><a href="#" data-page="dashboard" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a></li>
+                <li><a href="#" data-page="cadastro" class="menu-item">
+                    <i class="fas fa-user-plus"></i> Cadastro
+                </a></li>
+                <li><a href="#" data-page="busca" class="menu-item">
+                    <i class="fas fa-search"></i> Busca
+                </a></li>
+                <li><a href="#" data-page="lista-pacientes" class="menu-item">
+                    <i class="fas fa-list"></i> Lista de Pacientes
+                </a></li>
+                <li><a href="#" data-page="ordinix" class="menu-item">
+                    <i class="fas fa-exclamation-triangle"></i> Painel Ordinix
+                </a></li>
+                <li><a href="#" data-page="relatorios" class="menu-item">
+                    <i class="fas fa-chart-bar"></i> Relatórios
+                </a></li>
+                <li><a href="#" data-page="imprimir" class="menu-item">
+                    <i class="fas fa-print"></i> Imprimir
+                </a></li>
+                <li><a href="#" data-page="configuracoes" class="menu-item">
+                    <i class="fas fa-cog"></i> Configurações
+                </a></li>
+            </ul>
+        </nav>
+
+        <!-- Conteúdo Principal -->
+        <main id="main-content" class="main-content">
+            <!-- Dashboard -->
+            <div id="dashboard-page" class="page active">
+                <h2>Dashboard - Visão Geral</h2>
+                
+                <!-- Cards de Estatísticas -->
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-number" id="total-pacientes">0</div>
+                        <div class="stat-label">Total de Pacientes</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-number" id="nivel-1">0</div>
+                        <div class="stat-label">Nível 1 - Verde</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-number" id="nivel-2">0</div>
+                        <div class="stat-label">Nível 2 - Amarelo</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-number" id="nivel-3">0</div>
+                        <div class="stat-label">Nível 3 - Vermelho</div>
+                    </div>
+                </div>
+
+                <!-- Fila Ordinix -->
+                <div class="fila-ordinix">
+                    <h3>🚨 Fila Ordinix-123 - Triagem Inteligente</h3>
+                    <div id="fila-container" class="fila-container">
+                        <p class="empty-message">Nenhum paciente na fila</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cadastro -->
+            <div id="cadastro-page" class="page">
+                <h2>Cadastro de Paciente</h2>
+                <form id="cadastro-form" class="form-grid">
+                    <div class="form-group">
+                        <label for="nome">Nome Completo:</label>
+                        <input type="text" id="nome" name="nome" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cpf">CPF:</label>
+                        <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="idade">Idade:</label>
+                        <input type="number" id="idade" name="idade" min="0" max="120" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000">
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="sintomas">Sintomas:</label>
+                        <textarea id="sintomas" name="sintomas" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pressao">Pressão Arterial:</label>
+                        <input type="text" id="pressao" name="pressao" placeholder="120/80">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="temperatura">Temperatura (°C):</label>
+                        <input type="number" id="temperatura" name="temperatura" step="0.1" min="35" max="45">
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="prioridade">Prioridade Ordinix-123:</label>
+                        <div class="priority-selector">
+                            <div class="priority-option">
+                                <input type="radio" id="prioridade-1" name="prioridade" value="1">
+                                <label for="prioridade-1" class="priority-label nivel-1">
+                                    <span class="priority-number">1</span>
+                                    <span class="priority-text">Verde - Baixa</span>
+                                </label>
+                            </div>
+                            <div class="priority-option">
+                                <input type="radio" id="prioridade-2" name="prioridade" value="2">
+                                <label for="prioridade-2" class="priority-label nivel-2">
+                                    <span class="priority-number">2</span>
+                                    <span class="priority-text">Amarelo - Média</span>
+                                </label>
+                            </div>
+                            <div class="priority-option">
+                                <input type="radio" id="prioridade-3" name="prioridade" value="3">
+                                <label for="prioridade-3" class="priority-label nivel-3">
+                                    <span class="priority-number">3</span>
+                                    <span class="priority-text">Vermelho - Alta</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="priority-auto">
+                            <input type="checkbox" id="auto-priority" checked>
+                            <label for="auto-priority">🤖 Calcular automaticamente baseado nos sintomas</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions full-width">
+                        <button type="submit" class="btn-primary">Cadastrar Paciente</button>
+                        <button type="button" id="limpar-form" class="btn-secondary">Limpar Formulário</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Busca -->
+            <div id="busca-page" class="page">
+                <h2>Busca de Pacientes</h2>
+                <div class="search-container">
+                    <div class="search-form">
+                        <input type="text" id="search-input" placeholder="Digite nome, CPF ou telefone...">
+                        <button id="search-btn" class="btn-primary">
+                            <i class="fas fa-search"></i> Buscar
+                        </button>
+                    </div>
+                    <div id="search-results" class="search-results">
+                        <p class="empty-message">Digite algo para buscar pacientes</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Pacientes -->
+            <div id="lista-pacientes-page" class="page">
+                <h2>Lista de Pacientes</h2>
+                <div id="patients-list" class="patients-list">
+                    <p class="empty-message">Nenhum paciente cadastrado</p>
+                </div>
+            </div>
+
+            <!-- Painel Ordinix -->
+            <div id="ordinix-page" class="page">
+                <h2>🚨 Painel Ordinix-123</h2>
+                <div class="ordinix-info">
+                    <p>Sistema de classificação de prioridade médica baseado em sintomas e sinais vitais.</p>
+                </div>
+                <div id="ordinix-queue" class="ordinix-queue">
+                    <p class="empty-message">Nenhum paciente na fila de emergência</p>
+                </div>
+            </div>
+
+            <!-- Relatórios -->
+            <div id="relatorios-page" class="page">
+                <h2>Relatórios e Estatísticas</h2>
+                <div class="reports-container">
+                    <div class="report-actions">
+                        <button id="gerar-relatorio" class="btn-primary">
+                            <i class="fas fa-file-alt"></i> Gerar Relatório Completo
+                        </button>
+                        <button id="exportar-dados" class="btn-secondary">
+                            <i class="fas fa-download"></i> Exportar Dados
+                        </button>
+                        <button id="gerar-graficos" class="btn-success">
+                            <i class="fas fa-chart-bar"></i> Gerar Gráficos
+                        </button>
+                    </div>
+                    
+                    <!-- Gráficos -->
+                    <div class="charts-grid" id="charts-container" style="display: none;">
+                        <div class="chart-container">
+                            <div class="chart-title">Distribuição por Prioridade</div>
+                            <div class="chart-wrapper">
+                                <canvas id="priorityChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title">Distribuição por Faixa Etária</div>
+                            <div class="chart-wrapper">
+                                <canvas id="ageChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title">Sintomas Mais Comuns</div>
+                            <div class="chart-wrapper">
+                                <canvas id="symptomsChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title">Atendimentos por Período</div>
+                            <div class="chart-wrapper">
+                                <canvas id="timeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="report-content" class="report-content">
+                        <p class="empty-message">Clique em "Gerar Relatório" para visualizar as estatísticas ou "Gerar Gráficos" para ver os gráficos comparativos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impressão -->
+            <div id="imprimir-page" class="page">
+                <h2>Central de Impressão</h2>
+                <div class="print-container">
+                    <div class="print-options">
+                        <div class="print-section">
+                            <h3><i class="fas fa-chart-bar"></i> Relatórios</h3>
+                            <div class="print-buttons">
+                                <button id="imprimir-relatorio-completo" class="btn-primary">
+                                    <i class="fas fa-print"></i> Imprimir Relatório Completo
+                                </button>
+                                <button id="imprimir-estatisticas" class="btn-secondary">
+                                    <i class="fas fa-chart-pie"></i> Imprimir Estatísticas
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="print-section">
+                            <h3><i class="fas fa-users"></i> Pacientes</h3>
+                            <div class="print-buttons">
+                                <button id="imprimir-lista-pacientes" class="btn-primary">
+                                    <i class="fas fa-list"></i> Imprimir Lista de Pacientes
+                                </button>
+                                <button id="imprimir-fila-ordinix" class="btn-secondary">
+                                    <i class="fas fa-exclamation-triangle"></i> Imprimir Fila Ordinix
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="print-section">
+                            <h3><i class="fas fa-calendar-day"></i> Dados do Dia</h3>
+                            <div class="print-buttons">
+                                <button id="imprimir-dashboard" class="btn-primary">
+                                    <i class="fas fa-tachometer-alt"></i> Imprimir Dashboard
+                                </button>
+                                <button id="imprimir-resumo-diario" class="btn-secondary">
+                                    <i class="fas fa-calendar-check"></i> Imprimir Resumo Diário
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="print-preview" id="print-preview">
+                        <h4>Pré-visualização</h4>
+                        <div class="preview-content">
+                            <p class="empty-message">Selecione uma opção de impressão para ver a pré-visualização</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Configurações -->
+            <div id="configuracoes-page" class="page">
+                <h2>Configurações do Sistema</h2>
+                <div class="config-container">
+                    <div class="config-section">
+                        <h3>Dados do Sistema</h3>
+                        <button id="limpar-dados" class="btn-danger">
+                            <i class="fas fa-trash"></i> Limpar Todos os Dados
+                        </button>
+                        <button id="backup-dados" class="btn-secondary">
+                            <i class="fas fa-save"></i> Fazer Backup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para Detalhes do Paciente -->
+    <div id="patient-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

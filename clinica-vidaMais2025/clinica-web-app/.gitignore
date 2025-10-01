@@ -1,0 +1,355 @@
+# CLÍNICA VIDA+ - Sistema Ordinix-123
+# Arquivo .gitignore
+
+# ===== PYTHON =====
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# ===== FLASK ESPECÍFICO =====
+# Instance folder
+instance/
+
+# Flask-Migrate
+migrations/
+
+# Flask session files
+flask_session/
+
+# ===== BANCO DE DADOS =====
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# PostgreSQL
+*.pgsql
+
+# MySQL
+*.mysql
+
+# ===== LOGS =====
+# Log files
+logs/
+*.log
+*.log.*
+
+# ===== UPLOADS E ARQUIVOS TEMPORÁRIOS =====
+# Upload directory
+uploads/
+static/uploads/
+temp/
+tmp/
+
+# ===== CACHE =====
+# Redis dump
+dump.rdb
+
+# Cache directories
+.cache/
+cache/
+
+# ===== CONFIGURAÇÕES SENSÍVEIS =====
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Configuration files with secrets
+config.py
+local_config.py
+secret_config.py
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+*.cert
+
+# ===== IDE E EDITORES =====
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ===== SISTEMA OPERACIONAL =====
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ===== FERRAMENTAS DE BUILD =====
+# Node.js (se usado para build de assets)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Webpack
+dist/
+build/
+
+# ===== DOCKER =====
+# Docker
+.dockerignore
+Dockerfile.dev
+docker-compose.override.yml
+
+# ===== BACKUP E ARQUIVOS TEMPORÁRIOS =====
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+*.tmp
+
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# ===== ESPECÍFICO DO PROJETO =====
+# Arquivos de dados de teste
+test_data/
+sample_data/
+
+# Relatórios gerados
+reports/
+exports/
+
+# Arquivos de configuração local
+local_settings.py
+development.py
+
+# Chaves de API e tokens
+api_keys.txt
+tokens.txt
+
+# ===== MONITORAMENTO E PROFILING =====
+# Profiling
+*.prof
+*.profile
+
+# Monitoring
+monitoring/
+metrics/
+
+# ===== DOCUMENTAÇÃO GERADA =====
+# Sphinx
+docs/_build/
+docs/_static/
+docs/_templates/
+
+# ===== TESTES =====
+# Test artifacts
+.coverage
+htmlcov/
+.pytest_cache/
+test-results/
+
+# ===== DEPLOYMENT =====
+# Deployment scripts
+deploy.sh
+deploy.bat
+production.ini
+
+# Server configs
+nginx.conf
+apache.conf
+gunicorn.conf
+
+# ===== OUTROS =====
+# Temporary files
+*.tmp
+*.temp
+.temporary
+
+# Lock files
+*.lock
+
+# PID files
+*.pid
+
+# Socket files
+*.sock

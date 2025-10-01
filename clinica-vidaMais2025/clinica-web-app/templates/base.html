@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CLÍNICA VIDA+ - Sistema Ordinix-123 de Gestão Hospitalar">
+    <meta name="author" content="Adevilson de Lima - Estudante ADS Anhanguera">
+    
+    <title>{% block title %}CLÍNICA VIDA+ - Sistema Ordinix-123{% endblock %}</title>
+    
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            /* Design System Colors */
+            --primary: #0066CC;
+            --success: #00CC66;
+            --warning: #FFCC00;
+            --danger: #FF3333;
+            --dark: #2C3E50;
+            --light: #ECF0F1;
+            --info: #3498DB;
+            --muted: #95A5A6;
+            --white: #FFFFFF;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #0066CC 0%, #004499 100%);
+            --gradient-success: linear-gradient(135deg, #00CC66 0%, #009944 100%);
+            --gradient-warning: linear-gradient(135deg, #FFCC00 0%, #CC9900 100%);
+            --gradient-danger: linear-gradient(135deg, #FF3333 0%, #CC0000 100%);
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.1);
+            --shadow-md: 0 4px 8px rgba(0,0,0,0.15);
+            --shadow-lg: 0 8px 16px rgba(0,0,0,0.2);
+            
+            /* Transitions */
+            --transition-fast: 0.2s ease;
+            --transition-normal: 0.3s ease;
+            --transition-slow: 0.5s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        .header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: white !important;
+        }
+        
+        .header .navbar-nav .nav-link {
+            color: rgba(255,255,255,0.9) !important;
+            font-weight: 500;
+            transition: var(--transition-fast);
+            margin: 0 0.5rem;
+            border-radius: 8px;
+            padding: 0.5rem 1rem !important;
+        }
+        
+        .header .navbar-nav .nav-link:hover {
+            color: white !important;
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .header .navbar-nav .nav-link.active {
+            background: rgba(255,255,255,0.2);
+            color: white !important;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            background: white;
+            min-height: calc(100vh - 76px);
+            box-shadow: var(--shadow-md);
+            padding: 2rem 0;
+        }
+        
+        .sidebar .nav-link {
+            color: var(--dark);
+            padding: 1rem 1.5rem;
+            margin: 0.25rem 1rem;
+            border-radius: 12px;
+            transition: var(--transition-normal);
+            font-weight: 500;
+            border: none;
+            background: none;
+        }
+        
+        .sidebar .nav-link:hover {
+            background: var(--light);
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+        
+        .sidebar .nav-link.active {
+            background: var(--gradient-primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .sidebar .nav-link i {
+            width: 20px;
+            margin-right: 0.75rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 2rem;
+            min-height: calc(100vh - 76px);
+        }
+        
+        /* Cards */
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .card-body {
+            padding: 2rem;
+        }
+        
+        /* Buttons */
+        .btn {
+            border-radius: 12px;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            transition: var(--transition-fast);
+            border: none;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary {
+            background: var(--gradient-primary);
+        }
+        
+        .btn-success {
+            background: var(--gradient-success);
+        }
+        
+        .btn-warning {
+            background: var(--gradient-warning);
+            color: var(--dark);
+        }
+        
+        .btn-danger {
+            background: var(--gradient-danger);
+        }
+        
+        /* Forms */
+        .form-control, .form-select {
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            transition: var(--transition-fast);
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 0.2rem rgba(0, 102, 204, 0.25);
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Stats Cards */
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-normal);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .stat-card.success {
+            border-left-color: var(--success);
+        }
+        
+        .stat-card.warning {
+            border-left-color: var(--warning);
+        }
+        
+        .stat-card.danger {
+            border-left-color: var(--danger);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Alerts */
+        .alert {
+            border-radius: 12px;
+            border: none;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                left: -100%;
+                top: 76px;
+                width: 280px;
+                z-index: 999;
+                transition: var(--transition-normal);
+            }
+            
+            .sidebar.show {
+                left: 0;
+            }
+            
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .stat-card {
+                margin-bottom: 1rem;
+            }
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--muted);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    {% if session.usuario %}
+    <header class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+                    <i class="fas fa-hospital-alt me-2"></i>
+                    CLÍNICA VIDA+
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('dashboard') }}">
+                                <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('cadastro') }}">
+                                <i class="fas fa-user-plus me-1"></i>Cadastro
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('busca') }}">
+                                <i class="fas fa-search me-1"></i>Busca
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('lista_pacientes') }}">
+                                <i class="fas fa-list me-1"></i>Pacientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('ordinix') }}">
+                                <i class="fas fa-robot me-1"></i>Ordinix-123
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-circle me-1"></i>
+                                {{ session.usuario }}
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Perfil</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Configurações</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Sair</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% endif %}
+    
+    <!-- Main Layout -->
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            {% if session.usuario %}
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2">
+                <div class="sidebar">
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="{{ url_for('dashboard') }}">
+                            <i class="fas fa-tachometer-alt"></i>Dashboard
+                        </a>
+                        <a class="nav-link" href="{{ url_for('cadastro') }}">
+                            <i class="fas fa-user-plus"></i>Cadastrar Paciente
+                        </a>
+                        <a class="nav-link" href="{{ url_for('busca') }}">
+                            <i class="fas fa-search"></i>Buscar Pacientes
+                        </a>
+                        <a class="nav-link" href="{{ url_for('lista_pacientes') }}">
+                            <i class="fas fa-list"></i>Lista de Pacientes
+                        </a>
+                        <a class="nav-link" href="{{ url_for('ordinix') }}">
+                            <i class="fas fa-robot"></i>Sistema Ordinix-123
+                        </a>
+                        <hr class="my-3">
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-chart-bar"></i>Relatórios
+                        </a>
+                        <a class="nav-link" href="#">
+                            <i class="fas fa-cog"></i>Configurações
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            {% endif %}
+            
+            <!-- Main Content -->
+            <div class="{% if session.usuario %}col-md-9 col-lg-10{% else %}col-12{% endif %}">
+                <main class="main-content">
+                    {% block content %}{% endblock %}
+                </main>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Socket.IO Connection
+        const socket = io();
+        
+        // Global functions
+        window.ClinicaVidaPlus = {
+            // Show alert
+            showAlert: function(message, type = 'info') {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} alert-dismissible fade show animate__animated animate__fadeInDown`;
+                alertDiv.innerHTML = `
+                    ${message}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                `;
+                
+                const container = document.querySelector('.main-content');
+                container.insertBefore(alertDiv, container.firstChild);
+                
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.remove();
+                    }
+                }, 5000);
+            },
+            
+            // Show loading
+            showLoading: function(element) {
+                element.innerHTML = `
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                `;
+            },
+            
+            // Format date
+            formatDate: function(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('pt-BR');
+            },
+            
+            // Format time
+            formatTime: function(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleTimeString('pt-BR');
+            },
+            
+            // AJAX helper
+            ajax: function(url, options = {}) {
+                const defaults = {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                const config = { ...defaults, ...options };
+                
+                if (config.data && config.method !== 'GET') {
+                    config.body = JSON.stringify(config.data);
+                }
+                
+                return fetch(url, config)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                        }
+                        return response.json();
+                    });
+            }
+        };
+        
+        // Socket event listeners
+        socket.on('connect', function() {
+            console.log('Conectado ao servidor');
+        });
+        
+        socket.on('novo_paciente', function(data) {
+            ClinicaVidaPlus.showAlert(`Novo paciente cadastrado: ${data.nome}`, 'success');
+        });
+        
+        socket.on('paciente_atualizado', function(data) {
+            ClinicaVidaPlus.showAlert(`Paciente atualizado: ${data.nome}`, 'info');
+        });
+        
+        // Active nav link
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.sidebar .nav-link');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

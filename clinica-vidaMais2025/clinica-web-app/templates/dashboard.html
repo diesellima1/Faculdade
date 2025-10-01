@@ -1,0 +1,687 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CLÍNICA VIDA+ Sistema Ordinix-123{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard-header {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 2rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .dashboard-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .dashboard-subtitle {
+        opacity: 0.9;
+        font-size: 1.1rem;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-sm);
+        transition: var(--transition-normal);
+        border-left: 4px solid var(--primary);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: var(--gradient-primary);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .stat-card.success::before {
+        background: var(--gradient-success);
+    }
+    
+    .stat-card.warning::before {
+        background: var(--gradient-warning);
+    }
+    
+    .stat-card.danger::before {
+        background: var(--gradient-danger);
+    }
+    
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1rem;
+        font-size: 1.5rem;
+        color: white;
+        background: var(--gradient-primary);
+    }
+    
+    .stat-card.success .stat-icon {
+        background: var(--gradient-success);
+    }
+    
+    .stat-card.warning .stat-icon {
+        background: var(--gradient-warning);
+    }
+    
+    .stat-card.danger .stat-icon {
+        background: var(--gradient-danger);
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    
+    .stat-card.success .stat-number {
+        color: var(--success);
+    }
+    
+    .stat-card.warning .stat-number {
+        color: var(--warning);
+    }
+    
+    .stat-card.danger .stat-number {
+        color: var(--danger);
+    }
+    
+    .stat-label {
+        color: var(--muted);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        font-size: 0.9rem;
+    }
+    
+    .stat-change {
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+    
+    .stat-change.positive {
+        color: var(--success);
+    }
+    
+    .stat-change.negative {
+        color: var(--danger);
+    }
+    
+    .quick-actions {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 2rem;
+    }
+    
+    .quick-actions h3 {
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .action-buttons {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .action-btn {
+        display: flex;
+        align-items: center;
+        padding: 1rem 1.5rem;
+        border-radius: 12px;
+        text-decoration: none;
+        color: white;
+        font-weight: 500;
+        transition: var(--transition-normal);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .action-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-md);
+        color: white;
+    }
+    
+    .action-btn i {
+        font-size: 1.2rem;
+        margin-right: 0.75rem;
+    }
+    
+    .action-btn.primary {
+        background: var(--gradient-primary);
+    }
+    
+    .action-btn.success {
+        background: var(--gradient-success);
+    }
+    
+    .action-btn.warning {
+        background: var(--gradient-warning);
+        color: var(--dark);
+    }
+    
+    .action-btn.danger {
+        background: var(--gradient-danger);
+    }
+    
+    .recent-activity {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .recent-activity h3 {
+        color: var(--dark);
+        margin-bottom: 1.5rem;
+        font-weight: 600;
+    }
+    
+    .activity-list {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .activity-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        transition: var(--transition-fast);
+        border-left: 4px solid transparent;
+    }
+    
+    .activity-item:hover {
+        background: var(--light);
+        border-left-color: var(--primary);
+    }
+    
+    .activity-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        font-size: 0.9rem;
+        color: white;
+    }
+    
+    .activity-icon.success {
+        background: var(--success);
+    }
+    
+    .activity-icon.warning {
+        background: var(--warning);
+    }
+    
+    .activity-icon.danger {
+        background: var(--danger);
+    }
+    
+    .activity-icon.info {
+        background: var(--info);
+    }
+    
+    .activity-content {
+        flex: 1;
+    }
+    
+    .activity-title {
+        font-weight: 500;
+        color: var(--dark);
+        margin-bottom: 0.25rem;
+    }
+    
+    .activity-description {
+        color: var(--muted);
+        font-size: 0.9rem;
+    }
+    
+    .activity-time {
+        color: var(--muted);
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    
+    .ordinix-status {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .ordinix-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+    }
+    
+    .ordinix-title i {
+        margin-right: 0.5rem;
+    }
+    
+    .ordinix-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+    }
+    
+    .ordinix-stat {
+        text-align: center;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        backdrop-filter: blur(10px);
+    }
+    
+    .ordinix-stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .ordinix-stat-label {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    /* Loading states */
+    .loading-skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: loading 1.5s infinite;
+        border-radius: 8px;
+        height: 20px;
+        margin-bottom: 0.5rem;
+    }
+    
+    @keyframes loading {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .dashboard-title {
+            font-size: 2rem;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .action-buttons {
+            grid-template-columns: 1fr;
+        }
+        
+        .ordinix-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-header animate__animated animate__fadeInDown">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="dashboard-title">
+                <i class="fas fa-tachometer-alt me-3"></i>
+                Dashboard
+            </h1>
+            <p class="dashboard-subtitle">
+                Bem-vindo, {{ session.usuario }}! Sistema Ordinix-123 ativo e monitorando.
+            </p>
+        </div>
+        <div class="text-end">
+            <div class="badge bg-success fs-6 mb-2">
+                <i class="fas fa-circle me-1"></i>Sistema Online
+            </div>
+            <div class="text-white-50">
+                <i class="fas fa-clock me-1"></i>
+                <span id="currentTime"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Statistics Cards -->
+<div class="stats-grid" id="statsGrid">
+    <!-- Loading skeletons will be replaced by actual stats -->
+    <div class="stat-card">
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+    </div>
+    <div class="stat-card">
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+    </div>
+    <div class="stat-card">
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+    </div>
+    <div class="stat-card">
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton"></div>
+    </div>
+</div>
+
+<!-- Ordinix Status -->
+<div class="ordinix-status animate__animated animate__fadeInUp">
+    <div class="ordinix-title">
+        <i class="fas fa-robot"></i>
+        Sistema Ordinix-123 - Status em Tempo Real
+    </div>
+    <div class="ordinix-stats" id="ordinixStats">
+        <div class="ordinix-stat">
+            <div class="ordinix-stat-number" id="nivel1Count">-</div>
+            <div class="ordinix-stat-label">Nível 1 (Baixo)</div>
+        </div>
+        <div class="ordinix-stat">
+            <div class="ordinix-stat-number" id="nivel2Count">-</div>
+            <div class="ordinix-stat-label">Nível 2 (Médio)</div>
+        </div>
+        <div class="ordinix-stat">
+            <div class="ordinix-stat-number" id="nivel3Count">-</div>
+            <div class="ordinix-stat-label">Nível 3 (Alto)</div>
+        </div>
+        <div class="ordinix-stat">
+            <div class="ordinix-stat-number" id="usuariosOnline">-</div>
+            <div class="ordinix-stat-label">Usuários Online</div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <!-- Quick Actions -->
+    <div class="col-lg-8">
+        <div class="quick-actions animate__animated animate__fadeInLeft">
+            <h3>
+                <i class="fas fa-bolt me-2"></i>
+                Ações Rápidas
+            </h3>
+            <div class="action-buttons">
+                <a href="{{ url_for('cadastro') }}" class="action-btn primary">
+                    <i class="fas fa-user-plus"></i>
+                    Cadastrar Paciente
+                </a>
+                <a href="{{ url_for('busca') }}" class="action-btn success">
+                    <i class="fas fa-search"></i>
+                    Buscar Pacientes
+                </a>
+                <a href="{{ url_for('lista_pacientes') }}" class="action-btn warning">
+                    <i class="fas fa-list"></i>
+                    Lista de Pacientes
+                </a>
+                <a href="{{ url_for('ordinix') }}" class="action-btn danger">
+                    <i class="fas fa-robot"></i>
+                    Sistema Ordinix-123
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity -->
+    <div class="col-lg-4">
+        <div class="recent-activity animate__animated animate__fadeInRight">
+            <h3>
+                <i class="fas fa-history me-2"></i>
+                Atividade Recente
+            </h3>
+            <div class="activity-list" id="activityList">
+                <!-- Activities will be loaded here -->
+                <div class="text-center text-muted py-3">
+                    <i class="fas fa-spinner fa-spin me-2"></i>
+                    Carregando atividades...
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let statsUpdateInterval;
+    let timeUpdateInterval;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStatistics();
+        loadRecentActivity();
+        startTimeUpdate();
+        startStatsUpdate();
+    });
+    
+    // Update current time
+    function startTimeUpdate() {
+        updateTime();
+        timeUpdateInterval = setInterval(updateTime, 1000);
+    }
+    
+    function updateTime() {
+        const now = new Date();
+        const timeString = now.toLocaleTimeString('pt-BR');
+        const dateString = now.toLocaleDateString('pt-BR');
+        document.getElementById('currentTime').textContent = `${timeString} - ${dateString}`;
+    }
+    
+    // Load statistics
+    async function loadStatistics() {
+        try {
+            const response = await ClinicaVidaPlus.ajax('/api/estatisticas');
+            displayStatistics(response);
+        } catch (error) {
+            console.error('Erro ao carregar estatísticas:', error);
+            ClinicaVidaPlus.showAlert('Erro ao carregar estatísticas', 'warning');
+        }
+    }
+    
+    // Display statistics
+    function displayStatistics(stats) {
+        const statsGrid = document.getElementById('statsGrid');
+        
+        statsGrid.innerHTML = `
+            <div class="stat-card animate__animated animate__fadeInUp">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <span class="stat-number">${stats.total_pacientes || 0}</span>
+                <div class="stat-label">Total de Pacientes</div>
+                <div class="stat-change positive">
+                    <i class="fas fa-arrow-up me-1"></i>
+                    +${stats.pacientes_hoje || 0} hoje
+                </div>
+            </div>
+            
+            <div class="stat-card success animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+                <div class="stat-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <span class="stat-number">${stats.nivel_1 || 0}</span>
+                <div class="stat-label">Nível 1 - Baixo</div>
+                <div class="stat-change">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Prioridade Baixa
+                </div>
+            </div>
+            
+            <div class="stat-card warning animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+                <div class="stat-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <span class="stat-number">${stats.nivel_2 || 0}</span>
+                <div class="stat-label">Nível 2 - Médio</div>
+                <div class="stat-change">
+                    <i class="fas fa-clock me-1"></i>
+                    Atenção Moderada
+                </div>
+            </div>
+            
+            <div class="stat-card danger animate__animated animate__fadeInUp" style="animation-delay: 0.3s">
+                <div class="stat-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <span class="stat-number">${stats.nivel_3 || 0}</span>
+                <div class="stat-label">Nível 3 - Alto</div>
+                <div class="stat-change negative">
+                    <i class="fas fa-bolt me-1"></i>
+                    Urgente
+                </div>
+            </div>
+        `;
+        
+        // Update Ordinix stats
+        document.getElementById('nivel1Count').textContent = stats.nivel_1 || 0;
+        document.getElementById('nivel2Count').textContent = stats.nivel_2 || 0;
+        document.getElementById('nivel3Count').textContent = stats.nivel_3 || 0;
+        document.getElementById('usuariosOnline').textContent = stats.usuarios_online || 0;
+    }
+    
+    // Load recent activity
+    async function loadRecentActivity() {
+        try {
+            // Simulate recent activity data
+            const activities = [
+                {
+                    icon: 'success',
+                    iconClass: 'fas fa-user-plus',
+                    title: 'Novo paciente cadastrado',
+                    description: 'João Silva - Nível 2 Ordinix',
+                    time: '2 minutos atrás'
+                },
+                {
+                    icon: 'info',
+                    iconClass: 'fas fa-search',
+                    title: 'Busca realizada',
+                    description: 'Pesquisa por "Maria"',
+                    time: '5 minutos atrás'
+                },
+                {
+                    icon: 'warning',
+                    iconClass: 'fas fa-edit',
+                    title: 'Paciente atualizado',
+                    description: 'Ana Costa - Dados atualizados',
+                    time: '10 minutos atrás'
+                },
+                {
+                    icon: 'danger',
+                    iconClass: 'fas fa-exclamation-triangle',
+                    title: 'Alerta Ordinix-123',
+                    description: 'Paciente de alta prioridade detectado',
+                    time: '15 minutos atrás'
+                },
+                {
+                    icon: 'success',
+                    iconClass: 'fas fa-sign-in-alt',
+                    title: 'Usuário conectado',
+                    description: 'Dr. Sistema fez login',
+                    time: '20 minutos atrás'
+                }
+            ];
+            
+            displayRecentActivity(activities);
+        } catch (error) {
+            console.error('Erro ao carregar atividades:', error);
+        }
+    }
+    
+    // Display recent activity
+    function displayRecentActivity(activities) {
+        const activityList = document.getElementById('activityList');
+        
+        if (activities.length === 0) {
+            activityList.innerHTML = `
+                <div class="text-center text-muted py-3">
+                    <i class="fas fa-inbox me-2"></i>
+                    Nenhuma atividade recente
+                </div>
+            `;
+            return;
+        }
+        
+        activityList.innerHTML = activities.map(activity => `
+            <div class="activity-item animate__animated animate__fadeInUp">
+                <div class="activity-icon ${activity.icon}">
+                    <i class="${activity.iconClass}"></i>
+                </div>
+                <div class="activity-content">
+                    <div class="activity-title">${activity.title}</div>
+                    <div class="activity-description">${activity.description}</div>
+                </div>
+                <div class="activity-time">${activity.time}</div>
+            </div>
+        `).join('');
+    }
+    
+    // Start automatic stats update
+    function startStatsUpdate() {
+        statsUpdateInterval = setInterval(loadStatistics, 30000); // Update every 30 seconds
+    }
+    
+    // Socket.IO event listeners
+    socket.on('novo_paciente', function(data) {
+        loadStatistics();
+        loadRecentActivity();
+        ClinicaVidaPlus.showAlert(`Novo paciente: ${data.nome}`, 'success');
+    });
+    
+    socket.on('paciente_atualizado', function(data) {
+        loadStatistics();
+        loadRecentActivity();
+    });
+    
+    socket.on('stats_update', function(data) {
+        displayStatistics(data);
+    });
+    
+    // Cleanup intervals on page unload
+    window.addEventListener('beforeunload', function() {
+        if (statsUpdateInterval) clearInterval(statsUpdateInterval);
+        if (timeUpdateInterval) clearInterval(timeUpdateInterval);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,146 @@
+# CLÍNICA VIDA+ - Sistema Ordinix-123
+# Dependências do Projeto Web
+
+# Framework Web Principal
+Flask==2.3.3
+Werkzeug==2.3.7
+
+# Comunicação em Tempo Real
+Flask-SocketIO==5.3.6
+python-socketio==5.9.0
+python-engineio==4.7.1
+
+# Banco de Dados e ORM
+Flask-SQLAlchemy==3.0.5
+SQLAlchemy==2.0.23
+Alembic==1.12.1
+
+# Autenticação e Segurança
+Flask-Login==0.6.3
+Flask-WTF==1.2.1
+WTForms==3.1.0
+Flask-Bcrypt==1.0.1
+PyJWT==2.8.0
+
+# Validação e Serialização
+marshmallow==3.20.1
+Flask-Marshmallow==0.15.0
+marshmallow-sqlalchemy==0.29.0
+
+# CORS e Headers de Segurança
+Flask-CORS==4.0.0
+Flask-Talisman==1.1.0
+
+# Cache e Performance
+Flask-Caching==2.1.0
+redis==5.0.1
+
+# Logging e Monitoramento
+Flask-Logging==0.1.0
+structlog==23.2.0
+
+# Utilitários de Data e Hora
+python-dateutil==2.8.2
+pytz==2023.3
+
+# Validação de Dados Brasileiros
+python-cpf==1.0.0
+validate-docbr==1.10.0
+
+# Requisições HTTP
+requests==2.31.0
+urllib3==2.0.7
+
+# Processamento de Arquivos
+Pillow==10.1.0
+python-magic==0.4.27
+
+# Geração de PDFs e Relatórios
+reportlab==4.0.7
+weasyprint==60.2
+
+# Envio de Emails
+Flask-Mail==0.9.1
+
+# Variáveis de Ambiente
+python-dotenv==1.0.0
+
+# Utilitários Gerais
+click==8.1.7
+itsdangerous==2.1.2
+Jinja2==3.1.2
+MarkupSafe==2.1.3
+
+# Desenvolvimento e Debug
+Flask-DebugToolbar==0.13.1
+
+# Testes (Desenvolvimento)
+pytest==7.4.3
+pytest-flask==1.3.0
+pytest-cov==4.1.0
+
+# Formatação de Código (Desenvolvimento)
+black==23.11.0
+flake8==6.1.0
+isort==5.12.0
+
+# Servidor WSGI para Produção
+gunicorn==21.2.0
+eventlet==0.33.3
+
+# Monitoramento de Sistema
+psutil==5.9.6
+
+# Criptografia Adicional
+cryptography==41.0.7
+
+# Processamento JSON
+orjson==3.9.10
+
+# Compressão
+Flask-Compress==1.14
+
+# Rate Limiting
+Flask-Limiter==3.5.0
+
+# Internacionalização
+Flask-Babel==4.0.0
+Babel==2.13.1
+
+# Validação de Schemas
+cerberus==1.3.5
+
+# Utilitários de String
+unidecode==1.3.7
+
+# Processamento de CSV
+pandas==2.1.3
+openpyxl==3.1.2
+
+# Backup e Arquivos
+zipfile36==0.1.3
+
+# Monitoramento de Performance
+py-spy==0.3.14
+
+# Configuração Avançada
+dynaconf==3.2.4
+
+# Websockets (adicional)
+websockets==12.0
+
+# Async Support
+asyncio==3.4.3
+aiofiles==23.2.1
+
+# Health Checks
+healthcheck==1.3.3
+
+# Métricas
+prometheus-client==0.19.0
+
+# Logging Estruturado
+colorlog==6.8.0
+
+# Timezone Support
+tzdata==2023.3

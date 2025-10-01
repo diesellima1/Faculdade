@@ -1,0 +1,93 @@
+Lista de 10 Pacientes para Teste - Sistema Clínica Vida+
+🎯 Objetivo
+Lista completa com 10 pacientes para testar TODAS as funcionalidades do sistema, incluindo validação de duplicidade (paciente 10 = paciente 1).
+
+👥 PACIENTES PARA CADASTRO
+🔴 PACIENTE 1 - EMERGÊNCIA (Nível 3)
+Nome: João Silva Santos
+CPF: 12345678909
+Idade: 45
+Telefone: 51999887766
+Nível Ordinix: 3 (Vermelho - Emergência)
+Motivo: Dor torácica intensa, suspeita de infarto
+
+🟡 PACIENTE 2 - URGENTE (Nível 2)
+Nome: Maria Oliveira Costa
+CPF: 98765432100
+Idade: 32
+Telefone: 51988776655
+Nível Ordinix: 2 (Amarelo - Urgente)
+Motivo: Febre alta (39.5°C) há 2 dias, dificuldade respiratória
+
+🟢 PACIENTE 3 - NORMAL (Nível 1)
+Nome: Pedro Henrique Souza
+CPF: 377.136.670-40
+Idade: 28
+Telefone: 51977665544
+Nível Ordinix: 1 (Verde - Normal)
+Motivo: Consulta de rotina, renovação de receita
+
+🔴 PACIENTE 4 - EMERGÊNCIA (Nível 3)
+Nome: Ana Paula Ferreira
+CPF: 162.596.610-53
+Idade: 67
+Telefone: 51966554433
+Nível Ordinix: 3 (Vermelho - Emergência)
+Motivo: Queda com trauma craniano, sangramento ativo
+
+🟢 PACIENTE 5 - NORMAL (Nível 1)
+Nome: Carlos Alberto Lima
+CPF: 093.899.010-14
+Idade: 19
+Telefone: 51955443322
+Nível Ordinix: 1 (Verde - Normal)
+Motivo: Atestado médico para trabalho
+
+🟡 PACIENTE 6 - URGENTE (Nível 2)
+Nome: Juliana Rodrigues Alves
+CPF: 349.823.350-52
+Idade: 41
+Telefone: 51944332211
+Nível Ordinix: 2 (Amarelo - Urgente)
+Motivo: Crise de asma, dificuldade para respirar
+
+🟢 PACIENTE 7 - NORMAL (Nível 1)
+Nome: Roberto Carlos Mendes
+CPF: 435.194.150-20
+Idade: 55
+Telefone: 51933221100
+Nível Ordinix: 1 (Verde - Normal)
+Motivo: Retorno pós-operatório, retirada de pontos
+
+🟡 PACIENTE 8 - URGENTE (Nível 2)
+Nome: Fernanda Santos Ribeiro
+CPF: 359.601.630-47
+Idade: 38
+Telefone: 51922110099
+Nível Ordinix: 2 (Amarelo - Urgente)
+Motivo: Dor abdominal intensa, vômitos frequentes
+
+🟢 PACIENTE 9 - NORMAL (Nível 1)
+Nome: Lucas Martins Pereira
+CPF: 405.788.630-30
+Idade: 24
+Telefone: 51911009988
+Nível Ordinix: 1 (Verde - Normal)
+Motivo: Exame de sangue periódico, check-up
+
+⚠️ PACIENTE 10 - DUPLICADO (Teste de Validação)
+Nome: João Silva Santos
+CPF: 12345678909
+Idade: 45
+Telefone: 51999887766
+Nível Ordinix: 2 (Amarelo - Urgente)
+Motivo: MESMO PACIENTE DO 1º CADASTRO - Teste de duplicidade
+⚠️ ATENÇÃO: Este é o MESMO paciente do cadastro 1. Use para testar:
+
+Validação de CPF duplicado (se implementada)
+Busca de pacientes já cadastrados
+Sistema deve alertar que paciente já existe na fila
+
+Gerador de CPF
+se precisar de mais CPF acesse: 
+https://www.4devs.com.br/gerador_de_cpf
