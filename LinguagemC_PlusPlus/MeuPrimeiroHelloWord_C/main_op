@@ -1,0 +1,182 @@
+/*
+================================================================================
+ALGORITMOS E PROGRAMAÇÃO ESTRUTURADA
+Atividade: Operadores e Expressões
+Objetivo: Demonstrar o uso de operadores aritméticos, relacionais e lógicos
+================================================================================
+*/
+
+#include <stdio.h>
+
+int main() {
+    // ===================================================================
+    // DECLARAÇÃO DE VARIÁVEIS
+    // ===================================================================
+    int num1, num2, num3;           // Três números inteiros do usuário
+    int soma, subtracao, divisao;   // Resultados das operações
+    float multiplicacao;             // Multiplicação pode gerar decimal
+    
+    // ===================================================================
+    // ENTRADA DE DADOS
+    // ===================================================================
+    printf("=====================================\n");
+    printf("  CALCULADORA COM OPERADORES EM C\n");
+    printf("=====================================\n\n");
+    
+    printf("Digite o primeiro numero inteiro: ");
+    scanf("%d", &num1);
+    
+    printf("Digite o segundo numero inteiro: ");
+    scanf("%d", &num2);
+    
+    printf("Digite o terceiro numero inteiro: ");
+    scanf("%d", &num3);
+    
+    // ===================================================================
+    // PARTE 1: OPERADORES ARITMÉTICOS
+    // ===================================================================
+    printf("\n\n======================================\n");
+    printf("  PARTE 1: OPERACOES ARITMETICAS\n");
+    printf("======================================\n");
+    
+    // Soma dos três números
+    soma = num1 + num2 + num3;
+    printf("\nSoma: %d + %d + %d = %d", num1, num2, num3, soma);
+    
+    // Subtração: num1 - num2 - num3
+    subtracao = num1 - num2 - num3;
+    printf("\nSubtracao: %d - %d - %d = %d", num1, num2, num3, subtracao);
+    
+    // Multiplicação dos três números
+    multiplicacao = num1 * num2 * num3;
+    printf("\nMultiplicacao: %d * %d * %d = %.2f", num1, num2, num3, multiplicacao);
+    
+    // Divisão: num1 / num2 / num3
+    // Verificamos se num2 e num3 são diferentes de zero para evitar divisão por zero
+    if (num2 != 0 && num3 != 0) {
+        divisao = num1 / num2 / num3;
+        printf("\nDivisao: %d / %d / %d = %d", num1, num2, num3, divisao);
+    } else {
+        printf("\nDivisao: ERRO - Nao e possivel dividir por zero!");
+    }
+    
+    // ===================================================================
+    // PARTE 2: OPERADORES RELACIONAIS
+    // ===================================================================
+    printf("\n\n======================================\n");
+    printf("  PARTE 2: COMPARACOES RELACIONAIS\n");
+    printf("======================================\n");
+    
+    // Verificar se num1 é maior que num2
+    printf("\n%d e maior que %d? ", num1, num2);
+    if (num1 > num2) {
+        printf("SIM (Verdadeiro)");
+    } else {
+        printf("NAO (Falso)");
+    }
+    
+    // Verificar se num2 é menor que num3
+    printf("\n%d e menor que %d? ", num2, num3);
+    if (num2 < num3) {
+        printf("SIM (Verdadeiro)");
+    } else {
+        printf("NAO (Falso)");
+    }
+    
+    // ===================================================================
+    // PARTE 3: OPERADORES LÓGICOS
+    // ===================================================================
+    printf("\n\n======================================\n");
+    printf("  PARTE 3: VALIDACOES LOGICAS\n");
+    printf("======================================\n");
+    
+    // Verificar se num1 é positivo
+    printf("\n%d e positivo? ", num1);
+    if (num1 > 0) {
+        printf("SIM");
+    } else {
+        printf("NAO");
+    }
+    
+    // Verificar se num2 é par
+    // Um número é par quando o resto da divisão por 2 é igual a zero
+    printf("\n%d e par? ", num2);
+    if (num2 % 2 == 0) {
+        printf("SIM");
+    } else {
+        printf("NAO");
+    }
+    
+    // ===================================================================
+    // CONDIÇÃO LÓGICA COMBINADA (E lógico - &&)
+    // ===================================================================
+    printf("\n\n--- VERIFICACAO COMBINADA ---\n");
+    printf("Condicao: %d e positivo E %d e par?\n", num1, num2);
+    
+    // Operador lógico && (E): ambas condições precisam ser verdadeiras
+    if (num1 > 0 && num2 % 2 == 0) {
+        printf("\n*** RESULTADO: VERDADEIRO! ***\n");
+        printf("MENSAGEM ESPECIAL: Parabens! O primeiro numero e positivo\n");
+        printf("e o segundo numero e par. Ambas as condicoes foram atendidas!\n");
+    } else {
+        printf("\n*** RESULTADO: FALSO! ***\n");
+        printf("Uma ou ambas as condicoes nao foram atendidas:\n");
+        
+        // Explicação detalhada do motivo
+        if (num1 <= 0) {
+            printf("- O primeiro numero (%d) NAO e positivo\n", num1);
+        }
+        if (num2 % 2 != 0) {
+            printf("- O segundo numero (%d) NAO e par\n", num2);
+        }
+    }
+    
+    // ===================================================================
+    // RESUMO DOS OPERADORES UTILIZADOS
+    // ===================================================================
+    printf("\n\n======================================\n");
+    printf("  RESUMO DOS OPERADORES USADOS\n");
+    printf("======================================\n");
+    printf("\nOPERADORES ARITMETICOS:\n");
+    printf("  + (adicao)\n");
+    printf("  - (subtracao)\n");
+    printf("  * (multiplicacao)\n");
+    printf("  / (divisao)\n");
+    printf("  %% (modulo - resto da divisao)\n");
+    
+    printf("\nOPERADORES RELACIONAIS:\n");
+    printf("  > (maior que)\n");
+    printf("  < (menor que)\n");
+    printf("  == (igual a)\n");
+    printf("  != (diferente de)\n");
+    
+    printf("\nOPERADORES LOGICOS:\n");
+    printf("  && (E logico - AND)\n");
+    printf("  || (OU logico - OR)\n");
+    printf("  ! (NAO logico - NOT)\n");
+    
+    printf("\n======================================\n");
+    printf("  PROGRAMA FINALIZADO COM SUCESSO!\n");
+    printf("======================================\n\n");
+    
+    return 0;
+}
+
+/*
+================================================================================
+EXPLICAÇÃO DO CÓDIGO:
+
+1. OPERADORES ARITMÉTICOS:
+   - Realizamos soma, subtração, multiplicação e divisão dos 3 números
+   - Implementamos verificação de divisão por zero para evitar erros
+
+2. OPERADORES RELACIONAIS:
+   - Comparamos se num1 > num2 (maior que)
+   - Comparamos se num2 < num3 (menor que)
+
+3. OPERADORES LÓGICOS:
+   - Verificamos se num1 é positivo (num1 > 0)
+   - Verificamos se num2 é par (num2 % 2 == 0)
+   - Combinamos as duas condições com && (E lógico)
+================================================================================
+*/

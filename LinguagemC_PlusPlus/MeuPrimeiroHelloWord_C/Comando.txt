@@ -1,0 +1,71 @@
+compilar: 
+
+gcc main.c -o main 
+
+como executar: 
+./main
+
+Quebra de Linha
+\n
+
+--------------------------------------------------------------------------------------
+
+Inteiro (int): refere-se a valores inteiros que podem ser negativos, positivos ou zero. Exemplos comuns incluem variáveis que armazenam idade, quantidade de produtos, códigos de identificação, entre outros.
+Ponto flutuante (float / double): este tipo armazena valores que pertencem ao conjunto dos números reais, ou seja, valores que podem conter casas decimais. Peso, altura, dinheiro, são exemplos de variáveis que se enquadram nessa categoria.
+Caractere (char): é o tipo utilizado para armazenar letras. Um exemplo típico é o armazenamento do gênero de uma pessoa, em que 'F' é utilizado para representar feminino e 'M' para masculino.
+Booleano (bool): variáveis desse tipo são capazes de armazenar apenas um de dois
+ valores possíveis: verdadeiro ou falso. Geralmente, são empregadas em validações,
+como para verificar se um usuário digitou um valor específico ou se selecionou uma
+ opção determinada em uma lista. Para utilizá-lo em C, devemos incluir 
+ a biblioteca <stdbool.h>.
+
+ ------------------------------------------------------------------------------------
+
+ Quando trabalhamos com operadores em programação, a ordem de precedência 
+ desempenha um papel crucial. Os operadores aritméticos seguem a seguinte ordem de 
+ execução:
+
+Parênteses.
+Potenciação e radiciação.
+Multiplicação, divisão e módulo.
+Adição e subtração.
+
+Operador/Descrição/Exemplo
+
+==
+
+Igual a
+
+x == y
+------------
+!=
+
+Diferente de
+
+x != y
+------------
+> 
+
+Maior que
+
+x > y
+------------
+< 
+
+Menor que
+
+x < y
+------------
+>=
+
+Maior ou igual a
+
+x >= y
+------------
+<=
+
+Menor ou igual a
+
+x <= y
+
+-------------------------------------------------------------------------------------
